@@ -1,0 +1,37 @@
+# Maintainer: Luke Gaudreau <luke@infosoph.org>
+_author=JV
+_perlmod=Getopt-Long
+slug=J/JV/$_author
+pkgname=perl-$_perlmod
+pkgver=2.49.1
+pkgrel=1
+pkgdesc="The Getopt::Long module implements an extended getopt function called GetOptions(). It parses the command line from @ARGV, recognizing and removing specified options and their possible values."
+arch=('any')
+url="http://search.cpan.org/~$_author/$_perlmod-$pkgver/"
+license=('GPL' 'PerlArtistic')
+depends=('perl>=5.10.0')
+options=(!emptydirs)
+source=(http://cpan.perl.org/modules/by-authors/id/$slug/$_perlmod-$pkgver.tar.gz)
+md5sums=(bb7c92be20117be5d5043b07b6fd20a1)
+
+build() {
+  cd "$srcdir/$_perlmod-$pkgver"
+
+  # Install module in vendor directories.
+  PERL_MM_USE_DEFAULT=1 perl Makefile.PL INSTALLDIRS=vendor
+  make
+
+  ## For packages with Build.PL, do this instead:
+  # perl Build.PL installdirs=vendor destdir="$pkgdir/"
+  # perl Build
+}
+
+package() {
+  cd "$srcdir/$_perlmod-$pkgver"
+  make install DESTDIR="$pkgdir/"
+
+  ## For packages with Build.PL, do this instead:
+  # perl Build install
+}
+
+# vim:set ts=2 sw=2 et:
